@@ -1,3 +1,5 @@
+// VARIABLES
+
 function Rang(nom,niveau){
 	this.nom = nom;
 	this.niveau = niveau;
@@ -33,6 +35,19 @@ function Membre(id){
 
 var membres = [];
 
+function Def(key,value,id){
+	// mot à définir
+	this.key = key;
+	// définition
+	this.value = value;
+	// auteur de la définition
+	this.id = id;
+}
+
+var dico = [];
+
+// AUXILIAIRES
+
 function getMembre(id){
 	for(var i=0;i<membres.length;i++){
 		if( membres[i].id == id )
@@ -67,19 +82,32 @@ function lireIndice(x){
 	return x-1;
 }
 
-// FONCTIONS APPEL
-
-function oSyntax(p,o,r){
-	switch(o){
-		case "Sang Vermeil": return p+","+r+" de l'ordre du *Sang Vermeil*"; break;
-		case "Fontaine Bleutée": return p+","+r+" de l'ordre de la *Fontaine Bleutée*"; break;
-		case "Branche Verte": return p+","+r+" de l'ordre de la *Branche Verte*"; break;
-		case "Autel Doré": return p+","+r+" de l'ordre de l'*Autel Doré*"; break;
-		default: return "Erreur dans la fonction oSyntax";
+function defExiste(key){
+	for(var i=0;i<dico.length;i++){
+		if( dico[i].key.toLowerCase() == key.toLowerCase() )
+			return true;
 	}
+	return false;
 }
 
+// FONCTIONS APPEL
+
 function infoSur(id,pseudo){
+	var ord = {
+		"Sang Vermeil": "du *Sang Vermeil*", "Fontaine Bleutée": "de la *Fontaine Bleutée*", "Branche Verte": "de la *Branche Verte*", "Autel Doré": "de l'*Autel Doré*"
+	}
 	var m = getMembre(id);
-	var str = oSyntax(pseudo,m.ordre)+"\nRang' "+m.rang+"\nTitres' "+m.titres;
+	var str = p+","+r+" de l'ordre "+ord[m.ordre]+"\nRang' "+m.rang+"\nTitres' "+m.titres;
+	return str;
+}
+
+function addDef(param,id,sender){
+	var key = firstWord(param);
+	var value = "";
+	if( defExists() && def.author != id ){
+		return "";
+	} else {
+		dico.push( new Def(key,value,id) );	
+		return sender + "a défini " + key;
+	}
 }
