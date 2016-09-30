@@ -1,26 +1,9 @@
-// VARIABLES
+// MEMBRES
 
-function Rang(nom,niveau){
-	this.nom = nom;
-	this.niveau = niveau;
-}
+function Rang(nom,niveau){this.nom = nom; this.niveau = niveau;}
 
 // rangs possibles uniquement
-var rangs = [
-	new Rang("Hérétique",0),
-	new Rang("Séminariste Unum",1),
-	new Rang("Séminariste Duum",1),
-	new Rang("Séminariste Trium",1),
-	new Rang("Séminariste Quartum",1),
-	new Rang("Séminariste Quinqum",1),
-	new Rang("Séminariste Hexaltum",1),
-	new Rang("Prêtre",2),
-	new Rang("Évêque",3),
-	new Rang("Archevêque",4),
-	new Rang("Cardinal",5),
-	new Rang("Pape",6),
-	new Rang("Kami",7)
-];
+var rangs = [new Rang("Hérétique",0), new Rang("Séminariste Unum",1), new Rang("Séminariste Duum",1), new Rang("Séminariste Trium",1), new Rang("Séminariste Quartum",1), new Rang("Séminariste Quinqum",1), new Rang("Séminariste Hexaltum",1), new Rang("Prêtre",2), new Rang("Évêque",3), new Rang("Archevêque",4), new Rang("Cardinal",5), new Rang("Pape",6), new Rang("Kami",7)];
 
 // ordres possibles uniquement
 var ordres = ["Sang Vermeil","Fontaine Bleutée","Branche Verte","Autel Doré"];
@@ -34,19 +17,6 @@ function Membre(id){
 }
 
 var membres = [];
-
-function Def(key,value,id){
-	// mot à définir
-	this.key = key;
-	// définition
-	this.value = value;
-	// auteur de la définition
-	this.id = id;
-}
-
-var dico = [];
-
-// AUXILIAIRES
 
 function getMembre(id){
 	for(var i=0;i<membres.length;i++){
@@ -82,16 +52,7 @@ function lireIndice(x){
 	return x-1;
 }
 
-function defExiste(key){
-	for(var i=0;i<dico.length;i++){
-		if( dico[i].key.toLowerCase() == key.toLowerCase() )
-			return true;
-	}
-	return false;
-}
-
-// FONCTIONS APPEL
-
+//appel
 function infoSur(id,pseudo){
 	var ord = {
 		"Sang Vermeil": "du *Sang Vermeil*", "Fontaine Bleutée": "de la *Fontaine Bleutée*", "Branche Verte": "de la *Branche Verte*", "Autel Doré": "de l'*Autel Doré*"
@@ -101,13 +62,38 @@ function infoSur(id,pseudo){
 	return str;
 }
 
+// DICO
+
+function Def(key,value,id){
+	this.key = key;
+	this.value = value;
+	this.id = id; // auteur de la définition
+}
+
+var dico = [];
+
+function getDef(key){
+    for(var k=0;k<dico.length;k++){
+	if( dico[k].key.toLowerCase() == key.toLowerCase() )
+	    return dico[k];
+    }
+    return null;
+}
+
+// appel
 function addDef(param,id,sender){
-	var key = firstWord(param);
-	var value = "";
-	if( defExists() && def.author != id ){
-		return "";
+    var key = (param.split(' '))[0];
+    var value = "";
+    var def = getDef(key);
+    if( def != null  ){
+	if( def.id == id ){
+	    def.value = value;
+	    return sender+" a changé la définition de "+def.key;
 	} else {
-		dico.push( new Def(key,value,id) );	
-		return sender + "a défini " + key;
+	    return sender+" n'est pas l'auteur de "+key+"; accès refusé";
 	}
+    } else {
+	dico.push( new Def(key,value,id) );	
+	return sender + "a défini " + key;
+    }
 }
