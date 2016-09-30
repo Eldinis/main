@@ -1,0 +1,35 @@
+<html>
+<head>
+<title> m </title>
+<style>
+p { display : inline-block; margin-right:5px; width : 100px; height : 100px; border:1px solid grey; }
+</style>
+</head>
+<body>
+
+<div id="area"></div>
+
+<script>
+var color = ["white","red","green","blue","black"];
+var n = 0;
+var d = document.getElementById('area');
+var imax = 0;
+
+setInterval( function(){
+	d.innerHTML += "<p class='flash'></p>";
+	imax++;
+	if( imax > 10 ){
+		d.innerHTML = "";
+		imax = 0;
+	}
+	n = (n+1)%color.length;
+	var p = document.getElementsByClassName("flash");
+	var clr = color[n];
+	for(var k=0;k<p.length;k++){
+		p[k].style.backgroundColor = clr;
+	}
+},100);
+
+</script>
+</body>
+</html>
